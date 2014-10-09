@@ -56,4 +56,28 @@
             当一个内部函数被调用，函数中有使用到局部变量，就会形成闭包。
         *使用场景
             建立一个单例环境
+            ```js
+            var singleton = function( fn ){
+                var result;
+                return function(){
+                    return result || ( result = fn .apply( this, arguments ) );
+                }
+            }
+            var createMask = singleton( function(){
+                return document.body.appendChild( document.createElement('div') );         
+            })
+            ```
+
             循环绑定事件的变量取值
+            ```js
+            for (var i = 0; i < menuLi.length; i++) {
+                var num = i;
+                menuLi[i].onclick = (function(_num) {
+                    return function(){
+                        console.log(menuContent[_num]);
+                        console.log(menuContent[_num].className);
+                    }
+
+                })(num)
+            }
+            ```
