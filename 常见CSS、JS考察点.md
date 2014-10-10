@@ -50,6 +50,7 @@ position: fixed
 具有“layout” 的元素如果同时 display: inline ，那么它的行为就和标准中所说的 inline-block 很类似了：在段落中和普通文字一样在水平方向和连续排列，受 vertical-align 影响，并且大小可以根据内容自适应调整。这也可以解释为什么单单在 IE/Win 中内联元素可以包含块级元素而少出问题，因为在别的浏览器中 display: inline 就是内联，不像 IE/Win 一旦内联元素拥有 layout 还会变成 inline-block。
 
 ###寂寞的垂直居中
+垂直居中有很多种方法，各有特点，那么问题来了，我们什么情况下用哪种呢？
 ####transform:translateY(-50%)
 #####Talk is cheap show me the code
     .dialog{
@@ -103,6 +104,65 @@ position: fixed
     所以仅用于文字居中的情况或图片居中
     配合下面的font-size用法兼容IE6、7
 
+#### top: 0; left: 0; bottom: 0; right: 0;大法
+#####Talk is cheap show me the code
+    .father{
+        possition:relative;
+    }
+    .middle{
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        height:auto;
+    }
+    <div class="father">
+        <div class="middle"></div>
+    </div>
+#####兼容性和场景
+    IE8+ 
+    支持百分比%属性值和min-/max-属性
+    只用这一个css可实现任何内容块居中
+    必须指定height
+    如果是ie8+这个应该是弹窗最好用的，脱离文档流
+
+####flexbox布局
+#####Talk is cheap show me the code
+    .middle{
+        display: -webkit-box;  /* 老版本语法: Safari,  iOS, Android browser, older WebKit browsers.  */
+        display: -moz-box;    /* 老版本语法: Firefox (buggy) */ 
+        display: -ms-flexbox;  /* 混合版本语法: IE 10 */
+        display: -webkit-flex;  /* 新版本语法： Chrome 21+ */
+        display: flex;       /* 新版本语法： Opera 12.1, Firefox 22+ */
+
+        /*垂直居中*/  
+        /*老版本语法*/
+        -webkit-box-align: center; 
+        -moz-box-align: center;
+        /*混合版本语法*/
+        -ms-flex-align: center; 
+        /*新版本语法*/
+        -webkit-align-items: center;
+        align-items: center;
+
+        /*水平居中*/
+        /*老版本语法*/
+        -webkit-box-pack: center; 
+        -moz-box-pack: center; 
+        /*混合版本语法*/
+        -ms-flex-pack: center; 
+        /*新版本语法*/
+        -webkit-justify-content: center;
+        justify-content: center;
+
+        margin: 0;
+        height: 100%;
+        width: 100% /* needed for Firefox */
+    }
+    <div class="middle"></div>
+#####兼容性和场景
+    IE9+ 
+    结构非常简单，谁想用就给谁加个css就行
+    但是兼容性异常纠结，能不用就先别用了。
 
 ####ie6、7 font-size为高度的0.873倍
 #####Talk is cheap show me the code
